@@ -12,10 +12,12 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import ca.issgc.bowling.frame.BonusWon;
+import ca.issgc.bowling.frame.NormalPlay;
 import ca.issgc.bowling.frame.Play;
+import ca.issgc.bowling.rules.AmericanTenPinScoringSystem;
 
 /**
- * Evaluating plays for {@link BonusWon} types
+ * Evaluating plays for {@link BonusWon} types and the calculation of the score
  * 
  * @author dinhego
  *
@@ -32,10 +34,10 @@ class EvaluatingPlays {
     @BeforeAll
     void setup() {
 
-	lastPlayWasAStrike = new Play(10, 0);
+	lastPlayWasAStrike = new NormalPlay(10, 0);
 	assertTrue(BonusWon.STRIKE.equals(lastPlayWasAStrike.getBonus()));
 
-	lastPlayWasASpare = new Play(6, 4);
+	lastPlayWasASpare = new NormalPlay(6, 4);
 	assertTrue(BonusWon.SPARE.equals(lastPlayWasASpare.getBonus()));
     }
 
@@ -43,32 +45,33 @@ class EvaluatingPlays {
 
     @Test
     void playWithoutBonus() {
-	assertEquals(BonusWon.NO_BONUS, BonusWon.evaluateAPlay(new Play(0, 2)));
-	assertEquals(BonusWon.NO_BONUS, BonusWon.evaluateAPlay(new Play(1, 8)));
+	assertEquals(BonusWon.NO_BONUS, BonusWon.evaluateAPlay(new NormalPlay(0, 2)));
+	assertEquals(BonusWon.NO_BONUS, BonusWon.evaluateAPlay(new NormalPlay(1, 8)));
     }
 
     @Test
     void playWithAStrike() {
-	assertEquals(BonusWon.STRIKE, BonusWon.evaluateAPlay(new Play(10, 0)));
+	assertEquals(BonusWon.STRIKE, BonusWon.evaluateAPlay(new NormalPlay(10, 0)));
     }
 
     @Test
     void playWithASpare() {
-	assertEquals(BonusWon.SPARE, BonusWon.evaluateAPlay(new Play(1, 9)));
-	assertEquals(BonusWon.SPARE, BonusWon.evaluateAPlay(new Play(0, 10)));
-	assertEquals(BonusWon.SPARE, BonusWon.evaluateAPlay(new Play(2, 8)));
+	assertEquals(BonusWon.SPARE, BonusWon.evaluateAPlay(new NormalPlay(1, 9)));
+	assertEquals(BonusWon.SPARE, BonusWon.evaluateAPlay(new NormalPlay(0, 10)));
+	assertEquals(BonusWon.SPARE, BonusWon.evaluateAPlay(new NormalPlay(2, 8)));
     }
 
     // check the values of bonuses to be applied to a current play
     @Test
     void noBonusAtCurrentPlay() {
 	// three pins knocked down
-	Play lastPlay = new Play(0, 3);
+	Play evaluatedPlay = new NormalPlay(0, 3);
 
 	// the current play is a strike, but without a bonus
-	Play current = new Play(10, 0);
+	Play nextPlay = new NormalPlay(10, 0);
 
-	assertTrue(10 == BonusWon.calculatePlayPointsAndBonus(lastPlay, current));
+	assertTrue(3 == new AmericanTenPinScoringSystem() {
+	}.calculateOrUpdateAPlayPointsAndBonus(evaluatedPlay, nextPlay, null));
     }
 
     /**
@@ -78,9 +81,10 @@ class EvaluatingPlays {
     @Test
     void playAfterAStrikeFromTheDoc() {
 
-	Play currentPlay = new Play(7, 1);
+	Play currentPlay = new NormalPlay(7, 1);
 
-	assertTrue(16 == BonusWon.calculatePlayPointsAndBonus(lastPlayWasAStrike, currentPlay));
+	assertTrue(18 == new AmericanTenPinScoringSystem() {
+	}.calculateOrUpdateAPlayPointsAndBonus(lastPlayWasAStrike, currentPlay, null));
     }
 
     /**
@@ -90,9 +94,10 @@ class EvaluatingPlays {
     @Test
     void playAfterASpareFromTheDoc() {
 
-	Play currentPlay = new Play(8, 1);
+	Play currentPlay = new NormalPlay(8, 1);
 
-	assertTrue(17 == BonusWon.calculatePlayPointsAndBonus(lastPlayWasASpare, currentPlay));
+	assertTrue(18 == new AmericanTenPinScoringSystem() {
+	}.calculateOrUpdateAPlayPointsAndBonus(lastPlayWasASpare, currentPlay, null));
     }
 
 }
