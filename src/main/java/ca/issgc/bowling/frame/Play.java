@@ -3,7 +3,7 @@
  */
 package ca.issgc.bowling.frame;
 
-import ca.issgc.bowling.rules.AmericanTenPinScoring;
+import ca.issgc.bowling.rules.AmericanTenPinScoringSystem;
 
 /**
  * Represents a single play in a frame
@@ -11,7 +11,7 @@ import ca.issgc.bowling.rules.AmericanTenPinScoring;
  * @author dinhego
  *
  */
-public class Play implements AmericanTenPinScoring {
+public class Play implements AmericanTenPinScoringSystem {
 
     private final int firstAttempt;
 

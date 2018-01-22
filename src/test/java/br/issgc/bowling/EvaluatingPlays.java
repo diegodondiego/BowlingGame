@@ -13,9 +13,10 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import ca.issgc.bowling.frame.BonusWon;
 import ca.issgc.bowling.frame.Play;
+import ca.issgc.bowling.rules.AmericanTenPinScoringSystem;
 
 /**
- * Evaluating plays for {@link BonusWon} types
+ * Evaluating plays for {@link BonusWon} types and the calculation of the score
  * 
  * @author dinhego
  *
@@ -68,7 +69,8 @@ class EvaluatingPlays {
 	// the current play is a strike, but without a bonus
 	Play current = new Play(10, 0);
 
-	assertTrue(10 == BonusWon.calculatePlayPointsAndBonus(lastPlay, current));
+	assertTrue(10 == new AmericanTenPinScoringSystem() {
+	}.calculatePlayPointsAndBonus(lastPlay, current));
     }
 
     /**
@@ -80,7 +82,8 @@ class EvaluatingPlays {
 
 	Play currentPlay = new Play(7, 1);
 
-	assertTrue(16 == BonusWon.calculatePlayPointsAndBonus(lastPlayWasAStrike, currentPlay));
+	assertTrue(16 == new AmericanTenPinScoringSystem() {
+	}.calculatePlayPointsAndBonus(lastPlayWasAStrike, currentPlay));
     }
 
     /**
@@ -92,7 +95,8 @@ class EvaluatingPlays {
 
 	Play currentPlay = new Play(8, 1);
 
-	assertTrue(17 == BonusWon.calculatePlayPointsAndBonus(lastPlayWasASpare, currentPlay));
+	assertTrue(17 == new AmericanTenPinScoringSystem() {
+	}.calculatePlayPointsAndBonus(lastPlayWasASpare, currentPlay));
     }
 
 }
