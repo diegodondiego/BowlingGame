@@ -60,6 +60,7 @@ public class Player implements AmericanTenPinScoringSystem {
      */
     public void addPlay(Integer frameId, NormalPlay play) {
 
+
 	// TODO improve this validation
 	if (frameId == null || frameId < 1 || frameId > DEFAULT_FRAMES || play == null) {
 	    throw new IllegalArgumentException("Invalid parameters!");

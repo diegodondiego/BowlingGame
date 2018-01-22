@@ -20,8 +20,8 @@ public interface AmericanTenPinScoringSystem extends Basics {
     int STRIKE_BONUS_MULTIPLIER = 2;
 
     /**
-     * Evaluate the bonus points to be applied to a current play based on the next
-     * play played
+     * <<<<<<< HEAD Evaluate the bonus points to be applied to a current play based
+     * on the next play played
      * 
      * @param evaluatedPlay
      *            the play to be evaluated. if is informed as <code>null</code>, is
@@ -78,6 +78,7 @@ public interface AmericanTenPinScoringSystem extends Basics {
 		return (evaluatedPlay.getPinsKnockedDown() + nextPlay.getFirstAttempt()) * POINTS_PER_PIN_KNOCKED_DOWN;
 	    default:
 		throw new UnsupportedOperationException("Bonus not implemented: " + evaluatedPlay.getBonus());
+
 	}
     }
 }
