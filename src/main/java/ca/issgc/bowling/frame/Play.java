@@ -13,57 +13,76 @@ import ca.issgc.bowling.rules.AmericanTenPinScoring;
  */
 public class Play implements AmericanTenPinScoring {
 
-	private int firstAttempt;
+    private final int firstAttempt;
 
-	private int secondAttempt;
-	
-	
+    private final int secondAttempt;
 
-	/**
-	 * Constructor with full information needed
-	 * 
-	 * @param firstAttempt
-	 * @param secondAttempt
-	 */
-	public Play(int firstAttempt, int secondAttempt) {
-		super();
-		this.firstAttempt = firstAttempt;
-		this.secondAttempt = secondAttempt;
+    private final BonusWon bonus;
 
-		validate();
+    /**
+     * Constructor with full information needed
+     * 
+     * @param firstAttempt
+     * @param secondAttempt
+     */
+    public Play(int firstAttempt, int secondAttempt) {
+	super();
+	this.firstAttempt = firstAttempt;
+	this.secondAttempt = secondAttempt;
 
-		
+	validate();
+
+	bonus = BonusWon.evaluateAPlay(this);
+
+    }
+
+    /**
+     * provides simple validation on the pins knocked down
+     */
+    private void validate() {
+	int totalScored = getPinsKnockedDown();
+
+	// simple validation
+	if (totalScored < 0 || totalScored > DEFAULT_NUMBER_PINS) {
+	    // FIXME localize this message
+	    throw new IllegalArgumentException(String.format("Invalid amount of pins knocked down: %d. Max pins is %d.",
+		    getPinsKnockedDown(), DEFAULT_NUMBER_PINS));
 	}
+    }
 
-	/**
-	 * provides simple validation on the pins knocked down
-	 */
-	private void validate() {
-		int totalScored = getTotalScored();
+    // getters
 
-		// simple validation
-		if (totalScored < 0 || totalScored > DEFAULT_NUMBER_PINS) {
-			// FIXME localize this message
-			throw new IllegalArgumentException(String.format("Invalid amount of pins knocked down: %d. Max pins is %d.",
-					getTotalScored(), DEFAULT_NUMBER_PINS));
-		}
-	}
+    public int getFirstAttempt() {
+	return firstAttempt;
+    }
 
-	// getters
+    public int getSecondAttempt() {
+	return secondAttempt;
+    }
 
-	public int getFirstAttempt() {
-		return firstAttempt;
-	}
+    public BonusWon getBonus() {
+	return bonus;
+    }
 
-	public int getSecondAttempt() {
-		return secondAttempt;
-	}
+    /**
+     * 
+     * @return the amount, validated, of pins knocked down in the two attempts
+     */
+    public int getPinsKnockedDown() {
+	return this.firstAttempt + this.secondAttempt;
+    }
 
-	/**
-	 * 
-	 * @return the amount, validated, of all attempts
-	 */
-	public int getTotalScored() {
-		return this.firstAttempt + this.secondAttempt;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+	StringBuilder builder = new StringBuilder();
+	builder.append("Play [firstAttempt=").append(firstAttempt).append(", secondAttempt=").append(secondAttempt)
+		.append(", ").append("bonus=").append(bonus).append("]");
+	return builder.toString();
+    }
+
 }

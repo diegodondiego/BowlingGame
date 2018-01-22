@@ -11,4 +11,9 @@ package ca.issgc.bowling.rules;
  */
 public interface AmericanTenPinScoring extends Basics {
 
+    /**
+     * bonus multiplier to be applied to a play following a strike
+     */
+    int STRIKE_BONUS_MULTIPLIER = 2;
+
 }

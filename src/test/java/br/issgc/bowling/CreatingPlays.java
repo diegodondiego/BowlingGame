@@ -26,7 +26,7 @@ public class CreatingPlays {
 
 		Play simplePlay = new Play(3, 7);
 
-		assertTrue(simplePlay.getTotalScored() == 10);
+		assertTrue(simplePlay.getPinsKnockedDown() == 10);
 
 	}
 
