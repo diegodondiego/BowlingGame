@@ -46,12 +46,15 @@ public interface AmericanTenPinScoringSystem extends Basics {
 	    return evaluatedPlay.getPinsKnockedDown() * POINTS_PER_PIN_KNOCKED_DOWN;
 	}
 
+	int pointsEarned = 0;
+
 	// evaluate
 	switch (evaluatedPlay.getBonus()) {
 
 	    case NO_BONUS:
 		// no bonus applied
-		return evaluatedPlay.getPinsKnockedDown() * POINTS_PER_PIN_KNOCKED_DOWN;
+		pointsEarned = evaluatedPlay.getPinsKnockedDown() * POINTS_PER_PIN_KNOCKED_DOWN;
+		break;
 	    case STRIKE:
 		// add the next two attempts
 		int amountOfPinsToAdd = evaluatedPlay.getPinsKnockedDown();
@@ -72,13 +75,20 @@ public interface AmericanTenPinScoringSystem extends Basics {
 		    amountOfPinsToAdd += nextPlay.getSecondAttempt();
 		}
 
-		return amountOfPinsToAdd * POINTS_PER_PIN_KNOCKED_DOWN;
+		pointsEarned = amountOfPinsToAdd * POINTS_PER_PIN_KNOCKED_DOWN;
+		break;
 	    case SPARE:
 		// double the value of the first attempt after the spare
-		return (evaluatedPlay.getPinsKnockedDown() + nextPlay.getFirstAttempt()) * POINTS_PER_PIN_KNOCKED_DOWN;
+		pointsEarned = (evaluatedPlay.getPinsKnockedDown() + nextPlay.getFirstAttempt())
+			* POINTS_PER_PIN_KNOCKED_DOWN;
+		break;
 	    default:
 		throw new UnsupportedOperationException("Bonus not implemented: " + evaluatedPlay.getBonus());
 
 	}
+
+	evaluatedPlay.setCurrentPointsPerPlay(pointsEarned);
+
+	return pointsEarned;
     }
 }

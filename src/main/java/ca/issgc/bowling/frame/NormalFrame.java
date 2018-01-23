@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.issgc.bowling;
+package ca.issgc.bowling.frame;
 
 import ca.issgc.bowling.rules.Basics;
 

@@ -60,9 +60,8 @@ public class Player implements AmericanTenPinScoringSystem {
      */
     public void addPlay(Integer frameId, NormalPlay play) {
 
-
 	// TODO improve this validation
-	if (frameId == null || frameId < 1 || frameId > DEFAULT_FRAMES || play == null) {
+	if (frameId == null || frameId < 1 || frameId > DEFAULT_AMOUNT_FRAMES || play == null) {
 	    throw new IllegalArgumentException("Invalid parameters!");
 	}
 
@@ -73,8 +72,12 @@ public class Player implements AmericanTenPinScoringSystem {
 
 	this.playByFrame.put(frameId, play);
 
-	// update players score
-	this.currentScore += calculateOrUpdateAPlayPointsAndBonus(this.playByFrame.get(frameId - 1), play, null);
+	// recalculate players score
+	this.currentScore = 0;
+	this.playByFrame.keySet().stream().sorted().forEach(tempFrameId -> {
+	    this.currentScore += calculateOrUpdateAPlayPointsAndBonus(this.playByFrame.get(tempFrameId),
+		    this.playByFrame.get(++tempFrameId), this.playByFrame.get(++tempFrameId));
+	});
     }
 
     // getters

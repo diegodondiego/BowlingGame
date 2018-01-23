@@ -13,6 +13,7 @@ import ca.issgc.bowling.rules.AmericanTenPinScoringSystem;
  */
 public class NormalPlay implements AmericanTenPinScoringSystem, Play {
 
+
     private final int firstAttempt;
 
     private final int secondAttempt;
@@ -66,6 +67,28 @@ public class NormalPlay implements AmericanTenPinScoringSystem, Play {
     @Override
     public boolean isPendingPointsToEvaluate() {
 	return this.pendingPointsToEvaluate;
+    }
+
+    /**
+     * set the points earned by play
+     * 
+     * @param currentPoints
+     */
+    @Override
+    public void setCurrentPointsPerPlay(int currentPoints) {
+
+	if (currentPoints < 0 || currentPoints > MAX_POINTS_EARNED_PER_PLAY) {
+	    throw new IllegalArgumentException(
+		    String.format("Current points informed [%d] is less than zero or bigger than %d.", currentPoints,
+			    MAX_POINTS_EARNED_PER_PLAY));
+	}
+
+	this.currentPointsEarned = currentPoints;
+    }
+
+    @Override
+    public int getCurrentPointsEarned() {
+	return currentPointsEarned;
     }
 
     // getters

@@ -24,4 +24,8 @@ public interface Play {
 
     void flagPendingPointsToEvaluate();
 
+    void setCurrentPointsPerPlay(int currentPoints);
+
+    int getCurrentPointsEarned();
+
 }

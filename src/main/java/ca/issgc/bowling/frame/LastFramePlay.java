@@ -68,4 +68,16 @@ public class LastFramePlay implements AmericanTenPinScoringSystem, Play {
 	
     }
 
+    @Override
+    public void setCurrentPointsPerPlay(int currentPoints) {
+	// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public int getCurrentPointsEarned() {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
 }
