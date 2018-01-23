@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import ca.issgc.bowling.frame.NormalPlay;
 import ca.issgc.bowling.frame.Play;
 
 /**
@@ -24,9 +25,9 @@ public class CreatingPlays {
 	@Test
 	void simplePlay() {
 
-		Play simplePlay = new Play(3, 7);
+		Play simplePlay = new NormalPlay(3, 7);
 
-		assertTrue(simplePlay.getTotalScored() == 10);
+		assertTrue(simplePlay.getPinsKnockedDown() == 10);
 
 	}
 
@@ -40,21 +41,21 @@ public class CreatingPlays {
 
 		// 11
 		IllegalArgumentException exceptionThrowed = assertThrows(IllegalArgumentException.class, () -> {
-			new Play(10, 1);
+			new NormalPlay(10, 1);
 		});
 		assertTrue("Invalid amount of pins knocked down: 11. Max pins is 10.".equals(exceptionThrowed.getMessage()),
 				"Error! Message received: " + exceptionThrowed.getMessage());
 		
 		// 1002
 		exceptionThrowed = assertThrows(IllegalArgumentException.class, () -> {
-			new Play(0, 1002);
+			new NormalPlay(0, 1002);
 		});
 		assertTrue("Invalid amount of pins knocked down: 1002. Max pins is 10.".equals(exceptionThrowed.getMessage()),
 				"Error! Message received: " + exceptionThrowed.getMessage());
 		
 		// negative
 		exceptionThrowed = assertThrows(IllegalArgumentException.class, () -> {
-			new Play(-1, 0);
+			new NormalPlay(-1, 0);
 		});
 		assertTrue("Invalid amount of pins knocked down: -1. Max pins is 10.".equals(exceptionThrowed.getMessage()),
 				"Error! Message received: " + exceptionThrowed.getMessage());
